@@ -27,13 +27,20 @@ const router = createBrowserRouter([
         path: "/user",
         element: <User />,
       },
+
     ],
   },
 ]);
 
+// Redux
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

@@ -279,6 +279,32 @@ body {
   color: #fff;
 }
 
+.edit {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 300px;
+}
+
+.edit__Btn__container {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  gap: 2px;
+}
+.edit__Btn {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+input:disabled {
+  background-color: #fff;
+  opacity: 0.9;
+}
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
