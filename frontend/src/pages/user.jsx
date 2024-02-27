@@ -2,17 +2,21 @@ import WelcomeUser from "../components/welcomeuser";
 import TransactionsBtn from "../components/transactionsBtn";
 import AccountContent from "../components/accountcontent";
 import { useEffect } from "react";
-import { createPath } from "react-router-dom";
+import { createPath, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../store/userSliceDeux";
 
 export default function User() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = sessionStorage.getItem("userToken");
     console.log(token);
+    if (!token) {
+      navigate("/signin");
+    }
     const profile = userProfile(token);
     console.log(profile);
   }, []);

@@ -109,7 +109,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: retrive user accounts
+      summary: Retrive user accounts
       description: API for fetching all user account
       produces:
         - application/json
@@ -129,7 +129,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: retrive user transactions
+      summary: Retrive user transactions
       description: API for fetching all transactions in a specific account
       responses:
         "200":
@@ -147,7 +147,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: retrive a specific transactions
+      summary: Retrive a specific transactions
       description: API for fetching a specific transactions
       produces:
         - application/json

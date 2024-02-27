@@ -5,6 +5,7 @@ function Header() {
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user);
   const logout = () => {
+    sessionStorage.removeItem("userToken");
     dispatch(logout());
   };
   return (
@@ -21,9 +22,9 @@ function Header() {
         <div>
           {isLogin ? (
             <>
-              <NavLink to="/user" className="blabla">
+              <NavLink to="/user" className="main-nav-item">
                 <i className="fa fa-user-circle"></i>
-                {user?.user?.firstName}
+                {user?.user?.userName}
               </NavLink>
               <NavLink to="/" className="main-nav-item" onClick={logout}>
                 <i className="fa fa-sign-out"></i>
