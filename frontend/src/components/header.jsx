@@ -1,10 +1,13 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/img/argentBankLogo.png";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/userSliceDeux";
 function Header() {
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user);
-  const logout = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
     sessionStorage.removeItem("userToken");
     dispatch(logout());
   };
@@ -26,7 +29,7 @@ function Header() {
                 <i className="fa fa-user-circle"></i>
                 {user?.user?.userName}
               </NavLink>
-              <NavLink to="/" className="main-nav-item" onClick={logout}>
+              <NavLink to="/" className="main-nav-item" onClick={handleLogout}>
                 <i className="fa fa-sign-out"></i>
                 Sign Out
               </NavLink>

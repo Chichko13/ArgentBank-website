@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { editFirstName } from "../store/userSliceDeux";
+import { editUserName } from "../store/userSliceDeux";
 import { useState } from "react";
+import { editUserProfile } from "../api/userApi";
 function WelcomeUser({ FirstName, LastName }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -15,32 +16,20 @@ function WelcomeUser({ FirstName, LastName }) {
     setIsEditing(false);
   };
 
-  const FormSubmit = async () => {
+  const FormSubmit = async (event) => {
     event.preventDefault();
     const token = sessionStorage.getItem("userToken");
+    const newUser = {
+      userName: newUserName,
+    };
     if (token) {
-      try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/user/profile",
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ userName: newUserName }),
-          }
-        );
-        const data = await response.json();
-        if (response.status === 200) {
-          console.log("Success", data);
-          dispatch(editFirstName(newUserName));
-          setIsEditing(false); // ferme le formulaire
-        } else {
-          throw new Error(data.message);
-        }
-      } catch (error) {
-        console.error(error);
+      const result = await editUserProfile(token, newUser);
+      if (result.success) {
+        console.log("Success", result.data);
+        dispatch(editUserName(newUserName));
+        setIsEditing(false); // ferme le formulaire
+      } else {
+        console.error(result.message);
       }
     }
   };

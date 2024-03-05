@@ -2,9 +2,10 @@ import WelcomeUser from "../components/welcomeuser";
 import TransactionsBtn from "../components/transactionsBtn";
 import AccountContent from "../components/accountcontent";
 import { useEffect } from "react";
-import { createPath, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../store/userSliceDeux";
+import { userProfile } from "../api/userApi";
 
 export default function User() {
   const dispatch = useDispatch();
@@ -13,34 +14,17 @@ export default function User() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("userToken");
-    console.log(token);
     if (!token) {
       navigate("/signin");
     }
-    const profile = userProfile(token);
-    console.log(profile);
-  }, []);
-
-  const userProfile = async (token) => {
-    try {
-      const response = await fetch(
-        "http://localhost:3001/api/v1/user/profile",
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = await response.json();
-      if (response.status === 200) {
-        console.log(data);
-        dispatch(loginSuccess(data.body));
-      } else {
-        throw new Error(data.message);
+    const userProfil = async () => {
+      const result = await userProfile(token);
+      if (result.success) {
+        dispatch(loginSuccess(result.data));
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
+    userProfil();
+  }, [dispatch, navigate]);
   return (
     <main className="main bg-dark">
       <WelcomeUser

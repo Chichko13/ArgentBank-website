@@ -1,40 +1,30 @@
-import { useDispatch } from "react-redux";
-import { redirect, Form } from "react-router-dom";
-
-export async function action({ request }) {
-  const form = await request.formData();
-  try {
-    const response = await fetch("http://localhost:3001/api/v1/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify(Object.fromEntries(form)),
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data);
-      sessionStorage.setItem("userToken", data.body.token);
-      return redirect("/user");
-    } else {
-      throw new Error(data.message);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  return null;
-}
+import { Form, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { login } from "../api/loginApi";
 export default function SignIn() {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
+  const formSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const result = await login(formData);
+    if (result.success) {
+      navigate("/user");
+    } else {
+      setErrorMessage(result.message);
+    }
+  };
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <Form method="post">
+        <Form method="post" onSubmit={formSubmit}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
-            <input type="email" id="username" name="email" />
+            <input type="email" id="username" name="email" required />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
@@ -48,6 +38,7 @@ export default function SignIn() {
             Sign In
           </button>
         </Form>
+        {errorMessage && <div className="error__message">{errorMessage}</div>}
       </section>
     </main>
   );

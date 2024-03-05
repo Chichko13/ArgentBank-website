@@ -5,8 +5,9 @@ import "./index.css";
 import Layout from "./pages/layout";
 import ErrorPage from "./pages/error";
 import Home from "./pages/home";
-import SignIn, { action as signInAction } from "./pages/signin";
+import SignIn from "./pages/signin";
 import User from "./pages/user";
+import { login } from "./api/loginApi";
 
 const router = createBrowserRouter([
   {
@@ -21,13 +22,12 @@ const router = createBrowserRouter([
       {
         path: "/signin",
         element: <SignIn />,
-        action: signInAction,
+        action: login,
       },
       {
         path: "/user",
         element: <User />,
       },
-
     ],
   },
 ]);
